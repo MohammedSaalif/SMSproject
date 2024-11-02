@@ -1,0 +1,42 @@
+{% extends 'Navbar/ProjectNavbar.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV to Pie Chart</title>
+</head>
+<body>
+
+{% block body %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <h1>CSV to Pie Chart Generator</h1>
+            <form method="post" enctype="multipart/form-data" action="{% url 'csv_to_pie_chart' %}">
+                {% csrf_token %}
+                <input type="file" name="csv_file" required>
+                <button type="submit">Generate Pie Chart</button>
+            </form>
+        </div>
+
+        <div class="col-auto d-flex align-items-center">
+            <div style="border-left: 2px solid black; height: 100%;"></div>
+        </div>
+
+        <div class="col">
+            <strong>Generated Pie Chart</strong>
+            <br><br>
+            {% if chart_path %}
+                <img src="{{ chart_path }}" alt="Generated Pie Chart" style="max-width: 100%; height: auto;">
+            {% elif error %}
+                <p style="color: red;">{{ error }}</p>
+            {% else %}
+                <p>The chart will be displayed here after generating it from the CSV file.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+</body>
+</html>
